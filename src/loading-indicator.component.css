@@ -28,3 +28,8 @@
   left: 0;
   transform-origin: 130px 130px;
 }
+
+.progress {
+  background-color: white;
+  height: 10px;
+}

@@ -3,6 +3,7 @@ import {ROUTER_DIRECTIVES} from '@angular/router';
 import {LoadingIndicator} from './loading-indicator.component';
 import {Windchimes} from './windchimes.component';
 import {WindchimesInteractive} from './windchimes-interactive.component';
+import {BouncingBall} from './Bouncing-ball.component';
 import {Random} from './services/random.service';
 import {Samples} from './services/samples.service';
 import {Spacial} from './services/spacial.service';

@@ -8,7 +8,7 @@ export const routes: RouterConfig = [
   {path: '', component: WindchimesInteractive},
   {path: 'play', component: Windchimes},
   {path: 'visual', component: Visualizer},
-  {path: 'bounce', component: BouncingBall}
+  {path: 'ball', component: BouncingBall}
 ];
 
 export const APP_ROUTER_PROVIDERS = [
