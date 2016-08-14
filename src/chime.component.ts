@@ -81,7 +81,7 @@ import {Audio} from './services/audio.service';
 })
 export class Chime implements OnInit, OnDestroy {
   @Input() chime: { x: number, y: number, note: string };
-  stopAudio: Function;
+  stopAudio: () => void;
 
   constructor(private samples: Samples,
     private audio: Audio,

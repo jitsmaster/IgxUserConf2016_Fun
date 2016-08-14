@@ -1,7 +1,8 @@
 import {Injectable, Inject, NgZone} from '@angular/core';
 const loader = require('webaudio-buffer-loader');
 
-const NOTE_SAMPLES = {
+const NOTE_SAMPLES = {  
+  PINGPONG: require("file!../samples/pingpong.mp3"),
   C4: require("file!../samples/n_C4.mp3"),
   G4: require("file!../samples/n_G4.mp3"),
   C5: require("file!../samples/n_C5.mp3"),

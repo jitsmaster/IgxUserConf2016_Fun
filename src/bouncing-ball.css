@@ -1,13 +1,39 @@
-.ball {
+
+.ballTube {
+    position: absolute;
+    top: 0;
+    bottom: 0;
     width: 40px;
-    height: 40px;
-    background-color: orange;
-    border-radius: 50%;
+    padding: 0;
+    transition-property: all;
+    transition-timing-function: linear;
+}
+.ball {
     position: absolute;
     transition-timing-function: ease-in;
     transition-property: all;
+    width: 40px;
+    height: 60px;
+    bottom: 0;
+    left: 0;
 }
 
 .ballRising {
     transition-timing-function: ease-out;
+}
+
+.ballShape {
+    position: absolute;
+    bottom: 0;
+    top:auto;
+    width: 40px;
+    height: 40px;
+    background-color: orange;
+    border-radius: 50%;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(.47,0,1,.23);
+}
+
+.ballShapeRising {
+    transition-timing-function: cubic-bezier(0,.48,.17,.98) ;
 }
