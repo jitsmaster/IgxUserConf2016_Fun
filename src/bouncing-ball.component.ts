@@ -1,17 +1,55 @@
 import {Component, Inject, Input, OnInit,
   ElementRef, Renderer, ViewChild,
-  OnDestroy, trigger, transition, animate, style, group} from '@angular/core';
+  OnDestroy, trigger, state, transition, animate, style, group} from '@angular/core';
 import {Samples} from './services/samples.service';
 import {Audio} from './services/audio.service';
 
 //g force
 const G: number = 32 * 90;
+const SPEEDX: number = 100;
 
 @Component({
   selector: 'ball',
   styles: [require('./bouncing-ball.css').toString()],
   template: `
-    <button (click)='bounce()'>Restart</button>
+    <button (click)='bounce()' class='btn btn-success'>Restart</button>
+    <label>
+      <input type='checkbox' (change)='toggleAdvanced()'/>  
+      Advanced
+    </label>
+    <div @configSlide="showAdvanced ? 'open' : 'closed'">
+      <span class='config'>
+        Horizontal Speed:
+        <select [(ngModel)]='_speedMultiplier'>
+          <option value="1">1x</option>
+          <option value="2">2x</option>
+          <option value="3">3x</option>
+          <option value="4">4x</option>
+          <option value="5">5x</option>
+        </select>
+      </span>
+      <span class='config'>
+        gForce:
+        <select [(ngModel)]='_gMultiplier'>
+          <option value="0.25">0.25</option>
+          <option value="0.5">0.5</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="4">4</option>
+        </select>
+      </span>  
+      <span class='config'>
+        Damp:
+        <select [(ngModel)]='_damp'>
+          <option value="0.5">0.5</option>
+          <option value="0.6">0.6</option>
+          <option value="0.7">0.7</option>
+          <option value="0.8">0.8</option>
+          <option value="0.9">0.9</option>
+          <option value="1">1</option>
+        </select>
+      </span>    
+    </div>
     <div class="ballTube" #ballTube>
       <div class="ball" #ball>
         <div class="ballShape" #ballSqueeze></div>
@@ -19,6 +57,15 @@ const G: number = 32 * 90;
     </div>
   `,
   animations: [
+    trigger('configSlide', [
+      state('void', style({ height: 0, transform: "translate3d(-100% ,0 ,0)" })),
+      state('closed', style({ height: 0, transform: "translate3d(-100% ,0 ,0)" })),
+      state('open', style({ height: '*', transform: "translate3d(0 ,0 ,0)" })),
+      transition('void => closed', [animate(0)]),
+      transition('closed => open', [
+        animate('600ms cubic-bezier(0.3, 0, 0.1, 1.7)')]),
+      transition('open => closed', [animate('400ms ease-out')])
+    ])
   ]
 })
 export class BouncingBall {
@@ -30,6 +77,8 @@ export class BouncingBall {
   ballTube: HTMLElement;
   ballSqueeze: HTMLElement;
 
+  showAdvanced:  boolean = false;
+
   screenPort: {
     w: number,
     h: number
@@ -40,12 +89,26 @@ export class BouncingBall {
     private samples: Samples) {
   }
 
-  _damp = 0.85;
-  _speedX = 150; //pixels per second
+  _damp = 0.8;  
+  _speedMultiplier = 1;
+  _gMultiplier = 1;
+
+  get _speedX() {
+      return this._speedMultiplier * SPEEDX;
+  } //pixels per second
+  
+  get _g() {
+    return this._gMultiplier * G;
+  }
+
+  toggleAdvanced() {
+    this.showAdvanced =  !this.showAdvanced;
+  }
+
   stopAudio: () => void; //end play function pointer
 
   _getTimeForFallDistance(h: number) {
-    return Math.sqrt(2 * h / G);
+    return Math.sqrt(2 * h / this._g);
   }
 
   ngOnInit() {
@@ -119,7 +182,7 @@ export class BouncingBall {
     }
     else {
       this.renderer.setElementStyle(this.ballSqueeze, "height", "40px");
-
+      this.renderer.setElementClass(this.ball, "ballRising", false);
     }
   }
 

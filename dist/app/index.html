@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,14 +9,34 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>Fun</title>
   <style>
-    html, body {
+    html,
+    body {
       background-color: #111;
       font-family: sans-serif;
       overflow: hidden;
     }
+    
+    input,
+    select,
+    button {
+      padding: 6px;
+      border: 1px solid gray;
+      border-radius: 3px;
+      font-size: 15px;
+    }
+    
+    button {
+      background-color: #a5a6ef;
+      border: none;
+      color: white;
+    }
   </style>
-  <link href='https://fonts.googleapis.com/css?family=Josefin+Slab' rel='stylesheet' type='text/css'>
+  <link href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css' ref='stylesheet' type="text/css"
+  />
+  <link href='https://fonts.googleapis.com/css?family=Josefin+Slab' rel='stylesheet' type='text/css' />
+
 </head>
+
 <body>
   <wind-chimes-app>
     <!--<loading-indicator></loading-indicator>-->
@@ -38,4 +59,5 @@
   </script>
   <script src="bundle.js"></script>
 </body>
+
 </html>

@@ -37,3 +37,21 @@
 .ballShapeRising {
     transition-timing-function: cubic-bezier(0,.48,.17,.98) ;
 }
+
+.config {
+    font-size: 15px;
+    color:white;
+    font-weight: bold;
+}
+
+.config select {
+    display:inline-block;
+    margin-right: 10px;
+    color: gray;
+}
+
+label {
+    color:white;
+    font-weight: bold;
+    font-size: 15px;
+}

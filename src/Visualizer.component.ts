@@ -12,7 +12,7 @@ import {Samples} from './services/samples.service';
 		<option>[Select a song to play]</option>
 		<option *ngFor="let name of sampleNames">{{name}}</option>
 	</select>
-	<button (click)="control()" style="display:block">Next</button>
+	<button (click)="control()" class='btn btn-success' style="display:block">Next</button>
     <canvas #can style="position:absolute;bottom:100"></canvas>
   `,
 	providers: [
