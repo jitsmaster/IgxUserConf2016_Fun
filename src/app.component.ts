@@ -4,7 +4,7 @@ import {LoadingIndicator} from './loading-indicator.component';
 import {Samples} from './services/samples.service';
 
 @Component({
-  selector: 'wind-chimes-app',
+  selector: 'igx-conf-2016',
   template: `
     <div (window:resize)="onWindowResize()">
       <span [hidden]="isLoading()" (click)="displayMenu = !displayMenu" style="cursor:pointer">{{menuAnchor}}</span>
