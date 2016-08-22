@@ -1,6 +1,7 @@
 import {Component, Inject, Input, OnInit,
   ElementRef, Renderer, ViewChild,
   OnDestroy, trigger, state, transition, animate, style, group} from '@angular/core';
+import {NgModel, ControlValueAccessor, REACTIVE_FORM_DIRECTIVES } from '@angular/forms';
 import {Samples} from './services/samples.service';
 import {Audio} from './services/audio.service';
 
@@ -17,7 +18,7 @@ const SPEEDX: number = 100;
       <input type='checkbox' (change)='toggleAdvanced()'/>  
       Advanced
     </label>
-    <div @configSlide="showAdvanced ? 'open' : 'closed'">
+    <div [@configSlide]="showAdvanced ? 'open' : 'closed'">
       <span class='config'>
         Horizontal Speed:
         <select [(ngModel)]='_speedMultiplier'>
@@ -67,7 +68,7 @@ const SPEEDX: number = 100;
     ])
   ]
 })
-export class BouncingBall {
+export class BouncingBall implements ControlValueAccessor {
   @ViewChild('ball') ballRef: ElementRef;
   @ViewChild('ballTube') ballTubeRef: ElementRef;
   @ViewChild('ballSqueeze') ballSqueezeRef: ElementRef;
@@ -76,7 +77,7 @@ export class BouncingBall {
   ballTube: HTMLElement;
   ballSqueeze: HTMLElement;
 
-  showAdvanced:  boolean = false;
+  showAdvanced: boolean = false;
 
   screenPort: {
     w: number,
@@ -88,20 +89,20 @@ export class BouncingBall {
     private samples: Samples) {
   }
 
-  _damp = 0.8;  
+  _damp = 0.8;
   _speedMultiplier = 1;
   _gMultiplier = 1;
 
   get _speedX() {
-      return this._speedMultiplier * SPEEDX;
+    return this._speedMultiplier * SPEEDX;
   } //pixels per second
-  
+
   get _g() {
     return this._gMultiplier * G;
   }
 
   toggleAdvanced() {
-    this.showAdvanced =  !this.showAdvanced;
+    this.showAdvanced = !this.showAdvanced;
   }
 
   stopAudio: () => void; //end play function pointer
@@ -188,4 +189,27 @@ export class BouncingBall {
   ngOnDestroy() {
     this.stopAudio();
   }
+
+  writeValue(v: any): void {
+    if (v == this._speedMultiplier)
+      return;
+
+    if (v && v instanceof String) {
+      this._speedMultiplier = v;
+      return;
+    }
+
+    this._speedMultiplier = v ? v : this._speedMultiplier;
+  }
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+
+  public onChange: any = Function.prototype;
+  public onTouched: any = Function.prototype;
 }

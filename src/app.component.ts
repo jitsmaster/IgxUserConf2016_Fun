@@ -1,35 +1,44 @@
-import {Component, Inject, provide} from '@angular/core';
-import {ROUTER_DIRECTIVES} from '@angular/router';
+import {Component, Inject, provide,
+  trigger, state, transition, animate, style, group} from '@angular/core';
 import {LoadingIndicator} from './loading-indicator.component';
-import {Windchimes} from './windchimes.component';
-import {WindchimesInteractive} from './windchimes-interactive.component';
-import {BouncingBall} from './Bouncing-ball.component';
-import {Random} from './services/random.service';
 import {Samples} from './services/samples.service';
-import {Spacial} from './services/spacial.service';
-import {Audio} from './services/audio.service';
 
 @Component({
   selector: 'wind-chimes-app',
   template: `
     <div (window:resize)="onWindowResize()">
+      <span [hidden]="isLoading()" (click)="displayMenu = !displayMenu" style="cursor:pointer">{{menuAnchor}}</span>
+      <nav [hidden]="isLoading()" [@showMenu]="displayMenu ? 'open': 'closed'">    
+        <a routerLink="ball" routerLinkActive="active">Bouncing Ball</a>
+        <a routerLink="/" routerLinkActive="active">Interactive</a>
+        <a routerLink="play" routerLinkActive="active">Autoplay</a>
+        <a routerLink="visual" routerLinkActive="active">Visualizer</a>      
+      </nav>
       <router-outlet [hidden]="isLoading()"></router-outlet>
       <loading-indicator *ngIf="isLoading()" [progress]="getLoadProgress()"></loading-indicator>
     </div>
   `,
   styles: [''],
-  directives: [ROUTER_DIRECTIVES, LoadingIndicator],
-  providers: [
-    Random,
-    Spacial,
-    Samples,
-    Audio,
-    provide('audioContext', { useValue: new (window['AudioContext'] ||  window['webkitAudioContext']) }),
-    provide('size', { useValue: { width: 1280, height: 780 } }),
-    provide('notes', { useValue: ['C4', 'G4', 'C5', 'D5', 'E5'] })
+  animations: [
+    trigger('showMenu', [
+      state('void', style({ height: 0, transform: "translate3d(-100% ,0 ,0)" })),
+      state('closed', style({ height: 0, transform: "translate3d(-100% ,0 ,0)" })),
+      state('open', style({ height: '*', transform: "translate3d(0 ,0 ,0)" })),
+      transition('closed => open', [
+        animate('600ms cubic-bezier(0.3, 0, 0.1, 1.7)')]),
+      transition('open => closed', [animate('400ms ease-out')])
+    ])
   ]
+  // directives: [LoadingIndicator, ROUTER_DIRECTIVES]
 })
 export class AppComponent {
+
+  displayMenu: boolean;
+
+  get menuAnchor() {
+    return this.displayMenu ? "<" : ">";
+  }
+
   bufferLoaded = false;
   constructor( @Inject('size') private size, private samples: Samples) {
     this.onWindowResize();
@@ -41,7 +50,9 @@ export class AppComponent {
   }
   getLoadProgress() {
     const bfrCount = this.bufferLoaded ? 1 : 0;
-    return 100 * (this.samples.loadedSampleCount + bfrCount) / (this.samples.totalSampleCount + 1);
+    var p = 100 * (this.samples.loadedSampleCount + bfrCount) / (this.samples.totalSampleCount + 1);
+    // console.info("Progress:" + p);
+    return p;
   }
   isLoading() {
     return this.getLoadProgress() < 100;

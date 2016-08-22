@@ -4,8 +4,6 @@ import {Observable} from 'rxjs/Observable';
 import {Random} from './services/random.service';
 import {Spacial} from './services/spacial.service';
 import {Samples} from './services/samples.service';
-import {Chime} from './chime.component';
-import {ForAnyOrder} from './directives/forAnyOrder.directive';
 import {Audio} from './services/audio.service';
 
 @Component({
@@ -20,8 +18,7 @@ import {Audio} from './services/audio.service';
     <thank-you *ngIf="isDone()">
     </thank-you>
   `,
-  styles: [require('./windchimes.component.css').toString()],
-  directives: [Chime, ForAnyOrder]
+  styles: [require('./windchimes.component.css').toString()]
 })
 export class WindchimesInteractive {
   clicks = new Subject<{

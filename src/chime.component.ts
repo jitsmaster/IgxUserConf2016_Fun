@@ -5,19 +5,19 @@ import {Audio} from './services/audio.service';
 @Component({
   selector: 'chime',
   template: `
-    <div class="ring {{chime.note}}" @expand="any"
+    <div class="ring {{chime.note}}"  [@expand]="any"
          [style.left.px]="chime.x - 150"
          [style.top.px]="chime.y - 250">
     </div>
-    <div class="ring {{chime.note}}" @expand2="any"
+    <div class="ring {{chime.note}}" [@expand2]="any"
          [style.left.px]="chime.x - 150"
          [style.top.px]="chime.y - 250">
     </div>
-    <div class="ring {{chime.note}}" @expand3="any"
+    <div class="ring {{chime.note}}" [@expand3]="any"
          [style.left.px]="chime.x - 150"
          [style.top.px]="chime.y - 250">
     </div>
-    <div class="light" @flash="any"
+    <div class="light" [@flash]="any"
          [style.left.px]="chime.x - 150"
          [style.top.px]="chime.y - 250">
     </div>
