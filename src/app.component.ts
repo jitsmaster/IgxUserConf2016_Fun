@@ -9,10 +9,10 @@ import {Samples} from './services/samples.service';
     <div (window:resize)="onWindowResize()">
       <span [hidden]="isLoading()" (click)="displayMenu = !displayMenu" style="cursor:pointer">{{menuAnchor}}</span>
       <nav [hidden]="isLoading()" [@showMenu]="displayMenu ? 'open': 'closed'">    
-        <a routerLink="ball" routerLinkActive="active">Bouncing Ball</a>
-        <a routerLink="/" routerLinkActive="active">Interactive</a>
-        <a routerLink="play" routerLinkActive="active">Autoplay</a>
-        <a routerLink="visual" routerLinkActive="active">Visualizer</a>      
+        <a routerLink="/ball" routerLinkActive="active">Bouncing Ball</a>
+        <a routerLink="/" routerLinkActive="active">Windchimes</a>
+        <a routerLink="/play" routerLinkActive="active">Windchimes in Wind</a>
+        <a routerLink="/visual" routerLinkActive="active">Visualizer</a>      
       </nav>
       <router-outlet [hidden]="isLoading()"></router-outlet>
       <loading-indicator *ngIf="isLoading()" [progress]="getLoadProgress()"></loading-indicator>

@@ -104,7 +104,8 @@ export class Visualizer {
 		this.ele.nativeElement.style.textAlign = "center";
 	}
 	ngOnDestroy() {
-		this.playHandler();
+		if (this.playHandler)
+			this.playHandler();
 	}
 
 	control() {

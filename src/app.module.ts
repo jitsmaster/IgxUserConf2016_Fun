@@ -3,6 +3,7 @@ import { BrowserModule  } from '@angular/platform-browser';
 import { RouterModule, RouterOutletMap, RouterLink, RouterLinkActive } from '@angular/router';
 import { APP_BASE_HREF } from '@angular/common';
 import { disableDeprecatedForms, provideForms, FormsModule } from '@angular/forms';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 import {LoadingIndicator} from './loading-indicator.component';
 import {Chime} from './chime.component';
@@ -33,6 +34,9 @@ import {ForAnyOrder} from './directives/forAnyOrder.directive';
 		Samples,
 		Audio,
 		provide(APP_BASE_HREF, {useValue: '/'}),
+		provide(LocationStrategy, {
+			useClass: HashLocationStrategy
+		}),
 		provide('audioContext', { useValue: new (window['AudioContext'] || window['webkitAudioContext']) }),
 		provide('size', { useValue: { width: 1280, height: 780 } }),
 		provide('notes', { useValue: ['C4', 'G4', 'C5', 'D5', 'E5'] }),

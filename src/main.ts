@@ -1,7 +1,6 @@
 import { provide } from '@angular/core';
-import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import {AppModule} from './app.module';
+import { AppModule}  from './app.module';
 
 // function main() {
 //   platformBrowserDynamic().bootstrapModule(AppModule);
