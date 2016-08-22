@@ -61,7 +61,6 @@ const SPEEDX: number = 100;
       state('void', style({ height: 0, transform: "translate3d(-100% ,0 ,0)" })),
       state('closed', style({ height: 0, transform: "translate3d(-100% ,0 ,0)" })),
       state('open', style({ height: '*', transform: "translate3d(0 ,0 ,0)" })),
-      transition('void => closed', [animate(0)]),
       transition('closed => open', [
         animate('600ms cubic-bezier(0.3, 0, 0.1, 1.7)')]),
       transition('open => closed', [animate('400ms ease-out')])

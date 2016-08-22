@@ -12,7 +12,7 @@ import {Samples} from './services/samples.service';
 		<option>[Select a song to play]</option>
 		<option *ngFor="let name of sampleNames">{{name}}</option>
 	</select>
-	<button (click)="control()" class='btn btn-success' style="display:block">Next</button>
+	<button (click)="control()" class='btn btn-success' style="display:block">{{buttonText}}</button>
     <canvas #can style="position:absolute;bottom:100"></canvas>
   `,
 	providers: [
@@ -26,7 +26,6 @@ export class Visualizer {
 
 	sampleNames = ["AMERICA", "SPRING", "SOMEWHERE"];
 
-
 	constructor(private audio: Audio,
 		private samples: Samples,
 		private ele: ElementRef) {
@@ -35,6 +34,10 @@ export class Visualizer {
 	_name: string;
 
 	currentSample;
+
+	get buttonText(): string {
+		return this.playing ? "Pause" : "Resume";
+	}
 
 	select(evt: Event) {
 		// this._name = evt.currentTarget["value"];
@@ -85,6 +88,7 @@ export class Visualizer {
 		}
 		else {
 			this.playHandler = this.audio.playWithData(this.currentSample);
+			this.playing = true;
 		}
 	}
 
@@ -93,7 +97,8 @@ export class Visualizer {
 			this.drawFrame(freqs);
 		});
 		this.audio.onPlayEnd.subscribe(source => {
-			this.playNext();
+			if (this.playing)
+				this.playNext();
 		});
 
 		this.ele.nativeElement.style.textAlign = "center";
@@ -103,12 +108,13 @@ export class Visualizer {
 	}
 
 	control() {
-		if (this.playing)
+		if (this.playing) {
 			this.audio.pause();
-		else
+			this.playing = !this.playing;
+		}
+		else {
 			this._play();
-
-		this.playing = !this.playing;
+		}
 	}
 	lastPos: { x: number, y: number };
 
