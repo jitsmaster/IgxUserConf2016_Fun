@@ -7,8 +7,7 @@ import {Samples} from './services/samples.service';
 	selector: 'visualizer',
 	template: `
 	<select (change)="select($event)" #trackSelect
-	[value]="_name"
-		style="display:block">
+	[value]="_name" >
 		<option>[Select a song to play]</option>
 		<option *ngFor="let name of sampleNames">{{name}}</option>
 	</select>
