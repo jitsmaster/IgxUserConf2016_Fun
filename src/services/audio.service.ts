@@ -8,13 +8,16 @@ export class Audio {
   compressor: DynamicsCompressorNode;
 
   private _onPlaybackRequestAnimFrame: BehaviorSubject<{
+    percent: number,
     freqs: Uint8Array,
     times: Uint8Array
   }> = new BehaviorSubject<{
+    percent: number,
     freqs: Uint8Array,
     times: Uint8Array
   }>(null);
   public onPlaybackRequestAnimFrame: Observable<{
+    percent: number,
     freqs: Uint8Array,
     times: Uint8Array
   }> = this._onPlaybackRequestAnimFrame.asObservable();
@@ -67,46 +70,67 @@ export class Audio {
   times: Uint8Array;
 
   _source;
+  _analyzer;
 
   startTime = 0;
   startOffset = 0;
 
   playWithData(sample) {
-    const source = this.audioCtx.createBufferSource();
-    source.buffer = sample;
-    // source.playbackRate.value = 0.5;
-    // source.loop = true;
-    source.onended = () => {
-      this.onPlayEnd.emit(source);
+    if (this._paused) {
+      this._paused = false;
+      this.audioCtx.resume();
     }
-    var analyzer = this.audioCtx.createAnalyser();
-    analyzer.minDecibels = -140;
-    analyzer.maxDecibels = 0;
-    this.freqs = new Uint8Array(analyzer.frequencyBinCount);
-    this.times = new Uint8Array(analyzer.frequencyBinCount);
+    else {
+      const source = this.audioCtx.createBufferSource();
+      source.buffer = sample;
+      // source.playbackRate.value = 0.5;
+      // source.loop = true;
+      source.onended = () => {
+        this.onPlayEnd.emit(source);
+      }
+      var analyzer = this.audioCtx.createAnalyser();
+      analyzer.minDecibels = -140;
+      analyzer.maxDecibels = 0;
+      this.freqs = new Uint8Array(analyzer.frequencyBinCount);
+      this.times = new Uint8Array(analyzer.frequencyBinCount);
 
-    source.connect(analyzer);
-    analyzer.connect(this.compressor);
+      source.connect(analyzer);
+      analyzer.connect(this.compressor);
 
-    source[source.start ? 'start' : 'noteOn'](0, this.startOffset % sample.duration);
+      this.startTime = this.audioCtx.currentTime;
 
-    requestAnimationFrame(() => this._requestAnimFrame(analyzer));
+      source[source.start ? 'start' : 'noteOn'](0, this.startOffset % sample.duration);
 
-    this._source = source;
+      this._paused = false;
+      requestAnimationFrame(() => this._requestAnimFrame(source, analyzer));
+
+      this._source = source;
+      this._analyzer = analyzer;
+    }
 
     return () => {
-      source.stop(0);
-      source.disconnect();
-      analyzer.disconnect();
+      if (this._source) {
+        this._source.stop(0);
+        this._source.disconnect();
+      }
+      if (this._analyzer)
+        this._analyzer.disconnect();
+      this.audioCtx.resume();
+      this._paused = false;
     }
   }
 
+  _paused: boolean = false;
+
   pause() {
-    this._source[this._source.stop ? 'stop' : 'noteOff'](0);
+    this._paused = true;
+    this.audioCtx.suspend();
+    //this._source[this._source.stop ? 'stop' : 'noteOff'](0)
+
     this.startOffset += this.audioCtx.currentTime - this.startTime;
   }
 
-  _requestAnimFrame(analyzer) {
+  _requestAnimFrame(source, analyzer) {
     analyzer.smoothingTimeConstant = 0.8;
     analyzer.fftSize = 2048;
 
@@ -114,9 +138,15 @@ export class Audio {
     analyzer.getByteFrequencyData(this.freqs);
     analyzer.getByteTimeDomainData(this.times);
 
-    this._onPlaybackRequestAnimFrame.next({ freqs: this.freqs, times: this.times });
+    this._onPlaybackRequestAnimFrame.next({
+      percent: Math.min(100, 100 * (this.audioCtx.currentTime - this.startTime) / source.buffer.duration),
+      freqs: this.freqs,
+      times: this.times
+    });
 
-    requestAnimationFrame(() => this._requestAnimFrame(analyzer));
+    // if (!this._paused)
+    requestAnimationFrame(() => this._requestAnimFrame(source,
+      analyzer));
   }
 
   // Noise node code from http://noisehack.com/generate-noise-web-audio-api/

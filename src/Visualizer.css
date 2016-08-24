@@ -1,0 +1,28 @@
+.progressBar {
+	width: 95%;
+	height: 12px;
+	border: 1px solid ivory;
+	border-radius: 6px; 
+	box-sizing: border-box;
+	position: relative;
+	margin: 20px;
+	overflow: visible;
+}
+
+.progressFill {
+	height: 100%;
+	border-radius: 5px;
+	background-color: ivory;
+}
+
+.seekButton {	
+	position: absolute;
+	background-color: indianred;
+	border: 6px solid ivory;
+	top: -3px;
+	width:16px;
+	height:16px;
+	border-radius: 8px;
+	box-sizing: border-box;
+	margin-left: -3px;
+}
