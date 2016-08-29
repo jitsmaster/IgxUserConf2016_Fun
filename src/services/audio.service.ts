@@ -75,7 +75,9 @@ export class Audio {
   startTime = 0;
   startOffset = 0;
 
-  playWithData(sample) {
+  currentSampleDuration: number;
+
+  playWithData(sample, existingTrack?: boolean) {
     if (this._paused) {
       this._paused = false;
       this.audioCtx.resume();
@@ -97,9 +99,12 @@ export class Audio {
       source.connect(analyzer);
       analyzer.connect(this.compressor);
 
-      this.startTime = this.audioCtx.currentTime;
+      if (!existingTrack)
+        this.startTime = this.audioCtx.currentTime;
 
       source[source.start ? 'start' : 'noteOn'](0, this.startOffset % sample.duration);
+
+      this.currentSampleDuration = sample.duration;
 
       this._paused = false;
       requestAnimationFrame(() => this._requestAnimFrame(source, analyzer));

@@ -32,8 +32,8 @@ import {Audio} from './services/audio.service';
           animate('3s',
             style({ opacity: 0 })),
           animate('3s',
-            style({ borderWidth: "40px" })),
-          animate('5s linear',
+            style({ borderWidth: "30px" })),
+          animate('5s ease-out',
             style({ transform: 'scale3d(1,1,1) translateZ(0)' }))
         ])
       ])
@@ -46,8 +46,8 @@ import {Audio} from './services/audio.service';
           animate('3s 0.8s',
             style({ opacity: 0 })),
           animate('3s 0.8s',
-            style({ borderWidth: "40px" })),
-          animate('5s 0.8s linear',
+            style({ borderWidth: "30px" })),
+          animate('5s 0.8s ease-out',
             style({ transform: 'scale3d(1,1,1) translateZ(0)' }))
         ])
       ])
@@ -60,8 +60,8 @@ import {Audio} from './services/audio.service';
           animate('3s 1.6s',
             style({ opacity: 0 })),
           animate('3s 1.6s',
-            style({ borderWidth: "40px" })),
-          animate('5s 1.6s linear',
+            style({ borderWidth: "30px" })),
+          animate('5s 1.6s ease-out',
             style({ transform: 'scale3d(1,1,1) translateZ(0)' }))
         ])
       ])
