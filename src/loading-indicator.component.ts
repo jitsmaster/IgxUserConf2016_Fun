@@ -17,7 +17,7 @@ export class LoadingIndicator {
   }
 
   get progressPx(): string {
-    var w = window.screen.width;
+    var w = window.screen.availWidth;
     return (w * this.progress / 100) + "px"
   }
 }
