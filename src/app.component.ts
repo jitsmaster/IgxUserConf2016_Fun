@@ -10,6 +10,7 @@ import {Samples} from './services/samples.service';
       <span [hidden]="isLoading()" (click)="displayMenu = !displayMenu" style="cursor:pointer">{{menuAnchor}}</span>
       <nav [hidden]="isLoading()" [@showMenu]="displayMenu ? 'open': 'closed'">    
         <a routerLink="/ball" routerLinkActive="active">Bouncing Ball</a>
+        <a routerLink="/tball" routerLinkActive="active">Bouncing Ball Reactive</a>
         <a routerLink="/" routerLinkActive="active">Windchimes</a>
         <a routerLink="/play" routerLinkActive="active">Windchimes in Wind</a>
         <a routerLink="/visual" routerLinkActive="active">Visualizer</a>      
