@@ -3,7 +3,7 @@ import { Windchimes } from './windchimes.component';
 import { WindchimesInteractive } from './windchimes-interactive.component';
 import { Visualizer } from './visualizer.component';
 import { BouncingBall } from './bouncing-ball.component';
-import { BouncingBallTemplated } from './bouncing-ballt';
+import { BouncingBallTemplated } from './bouncing-balltemplated.component';
 
 // export const routes: RouterConfig = [
 //   {path: '', component: WindchimesInteractive},

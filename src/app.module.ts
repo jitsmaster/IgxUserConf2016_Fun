@@ -10,7 +10,7 @@ import {Chime} from './chime.component';
 import {Windchimes} from './windchimes.component';
 import {WindchimesInteractive} from './windchimes-interactive.component';
 import {BouncingBall} from './Bouncing-ball.component';
-import {BouncingBallTemplated} from './bouncing-ballt';
+import {BouncingBallTemplated} from './bouncing-balltemplated.component';
 import {Visualizer} from './Visualizer.component';
 import {Random} from './services/random.service';
 import {Samples} from './services/samples.service';
