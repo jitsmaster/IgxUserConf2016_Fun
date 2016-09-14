@@ -7,3 +7,15 @@
 	background-color: white;
 	border-radius: 5px;
 }
+
+.ball {
+	position: absolute;
+	top: 0;
+	left: 0;
+    width: 40px;
+    height: 40px;
+    background-color: orange;
+    border-radius: 50%;
+    transition-property: all;
+    transition-timing-function: linear;
+}
