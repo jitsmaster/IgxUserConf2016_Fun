@@ -1,0 +1,9 @@
+.paddle {
+	position: absolute;
+	left: 100px;
+	top: 0;
+	width: 10px;
+	height: 70px;
+	background-color: white;
+	border-radius: 5px;
+}

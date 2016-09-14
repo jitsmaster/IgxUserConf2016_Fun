@@ -12,6 +12,7 @@ import {WindchimesInteractive} from './windchimes-interactive.component';
 import {BouncingBall} from './Bouncing-ball.component';
 import {BouncingBallTemplated} from './bouncing-balltemplated.component';
 import {Visualizer} from './Visualizer.component';
+import {Pong} from './pong.component';
 import {Random} from './services/random.service';
 import {Samples} from './services/samples.service';
 import {Spacial} from './services/spacial.service';
@@ -23,7 +24,7 @@ import {ForAnyOrder} from './directives/forAnyOrder.directive';
 @NgModule({
     declarations: [AppComponent, Windchimes, WindchimesInteractive, 
 		BouncingBall, BouncingBallTemplated, Visualizer, LoadingIndicator,
-		ForAnyOrder, Chime],
+		ForAnyOrder, Chime, Pong],
 	// directives: [ROUTER_DIRECTIVES, LoadingIndicator],
     imports: [BrowserModule, FormsModule, RouterModule, routing],
     bootstrap: [AppComponent],
