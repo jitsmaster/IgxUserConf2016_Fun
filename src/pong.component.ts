@@ -19,6 +19,9 @@ class Pos {
 @Component({
 	selector: 'pong-game',
 	template: `
+		<div class="scoreCard">
+			Score: <span [innerHTML]="score | async"></span>
+		</div>
 		<div #paddle class="paddle" [style.top]="paddlePosition | async"></div>
 		<div #ball class="ball" [style.left.px]="(ballPosition | async).x"
 			[style.top.px]="(ballPosition | async).y"></div>
@@ -27,31 +30,35 @@ class Pos {
 	host: {
 		'(document:keydown)': 'movePaddle($event)',
 		'(document:keyup)': 'paddleStop($event)'
-	}
-	// changeDetection: ChangeDetectionStrategy.OnPush
+	},
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Pong implements OnDestroy, OnInit {
 
 	@ViewChild("paddle") paddle: ElementRef;
 
-	private _pos = 0;
-
+	private _paddlePos = 0;
+	private _score = 0;
 	private _ballPos: Pos = {
 		x: 0,
 		y: 0,
 	}
 
-	private _paddleSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this._pos + "px");
+	private _paddleSubject: BehaviorSubject<string> = new BehaviorSubject<string>(this._paddlePos + "px");
 	paddlePosition: Observable<string> = this._paddleSubject.asObservable();
 
 	private _ballPosSubject: BehaviorSubject<Pos> = new BehaviorSubject<Pos>(this._ballPos);
 	ballPosition: Observable<Pos> = this._ballPosSubject.asObservable();
 
+	private _scoreSubject: BehaviorSubject<string> = new BehaviorSubject<string>("0");
+	score: Observable<string> = this._scoreSubject.asObservable();
+
 	private _paddleMoveTimer;
 	private _ballMoveTimer;
+	private _scoreTimer;
 
 	private _paddleSpeedMultiplier: number = 1;
-	private _ballSpeedMultiplier: number = 1;
+	private _ballSpeedMultiplier: number = 2;
 	private _tanMultiplier: number = 1;
 
 	get paddleSpeed() {
@@ -83,7 +90,10 @@ export class Pong implements OnDestroy, OnInit {
 		this.paddle.nativeElement.parentMode.removeChild(this.paddle.nativeElement);
 	}
 
+	private _tempScore = 0;
+
 	ngOnInit() {
+
 		//start moving ball
 		//we will have a interval to calculate the next position, base on tan and speed
 		this._ballMoveTimer = setInterval(() => {
@@ -92,8 +102,33 @@ export class Pong implements OnDestroy, OnInit {
 			this._ballPos.x += posDiff.x;
 			this._ballPos.y += posDiff.y;
 
-			if (this._ballPos.x <= 0 || this._ballPos.x >= window.screen.availWidth - BOTTOM_OFFSET - 40)
+			var hitThePaddle = this._ballPos.x <= 100 + this.ballSpeed
+				&& this._ballPos.y >= this._paddlePos
+				&& this._ballPos.y <= this._paddlePos + this.paddle.nativeElement.clientHeight
+				&& posDiff.x < 0;
+
+			if (hitThePaddle
+				|| this._ballPos.x <= 0
+				|| this._ballPos.x >= window.screen.availWidth - BOTTOM_OFFSET - 40) {
 				this._xRevert = !this._xRevert;
+				if (hitThePaddle) {
+					//increaseScore 
+					this._score += 200;
+
+					if (this._scoreTimer)
+						clearInterval(this._scoreTimer);
+
+					this._scoreTimer = setInterval(() => {
+						this._tempScore++;
+						this._scoreSubject.next(this._tempScore.toString());
+
+						if (this._tempScore >= this._score) {
+							clearInterval(this._scoreTimer);
+							delete this._scoreTimer
+						}
+					}, 16)
+				}
+			}
 
 			if (this._ballPos.y <= 0 || this._ballPos.y >= window.screen.availHeight - BOTTOM_OFFSET - 40)
 				this._yRevert = !this._yRevert;
@@ -130,15 +165,15 @@ export class Pong implements OnDestroy, OnInit {
 	_movePaddle(keyCode: number) {
 		if (keyCode == 38) {
 			//up
-			this._pos -= this.paddleSpeed;
-			this._pos = Math.max(0, this._pos);
-			this._paddleSubject.next(this._pos + "px");
+			this._paddlePos -= this.paddleSpeed;
+			this._paddlePos = Math.max(0, this._paddlePos);
+			this._paddleSubject.next(this._paddlePos + "px");
 		}
 		else if (keyCode == 40) {
 			//down
-			this._pos += this.paddleSpeed;
-			this._pos = Math.min(window.screen.availHeight - this._paddleHeight, this._pos);
-			this._paddleSubject.next(this._pos + "px");
+			this._paddlePos += this.paddleSpeed;
+			this._paddlePos = Math.min(window.screen.availHeight - this._paddleHeight, this._paddlePos);
+			this._paddleSubject.next(this._paddlePos + "px");
 		}
 	}
 
