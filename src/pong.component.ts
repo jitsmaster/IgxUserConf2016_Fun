@@ -86,11 +86,12 @@ export class Pong implements OnDestroy, OnInit {
 	_paddleHeight: number;
 
 	ngOnDestroy() {
-
-		this.paddle.nativeElement.parentMode.removeChild(this.paddle.nativeElement);
+		this.stopAudio();
 	}
 
 	private _tempScore = 0;
+
+	stopAudio: Function;
 
 	ngOnInit() {
 
@@ -115,6 +116,10 @@ export class Pong implements OnDestroy, OnInit {
 					//increaseScore 
 					this._score += 200;
 
+					this.samples.getSample("PINGPONG").then(sample => {
+						this.stopAudio = this.audio.play(sample, 0);
+					});
+
 					if (this._scoreTimer)
 						clearInterval(this._scoreTimer);
 
@@ -138,13 +143,14 @@ export class Pong implements OnDestroy, OnInit {
 		}, 16);
 	}
 
-	constructor(private injector: Injector) {
+	constructor(private injector: Injector,
+		private audio: Audio,
+		private samples: Samples) {
+
 	}
 
 	movePaddle(evt: KeyboardEvent) {
-		var body = this.injector.get(DOCUMENT).body as HTMLElement;
-		body.appendChild(this.paddle.nativeElement);
-
+		
 		//add 100 offset for bottom
 		this._paddleHeight = this.paddle.nativeElement.offsetHeight - BOTTOM_OFFSET;
 
