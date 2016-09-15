@@ -9,8 +9,8 @@ import { Pong } from './pong.component';
 const appRoutes: Routes = [
   {path: '', component: WindchimesInteractive},
   {path: 'play', component: Windchimes},
-  // {path: 'visual', component: Visualizer}
-  // {path: 'ball', component: BouncingBall},
+  {path: 'visual', component: Visualizer},
+  {path: 'ball', component: BouncingBall},
   {path: 'tball', component: BouncingBallTemplated},
   {path: 'pong', component: Pong}
 ];
