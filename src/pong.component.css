@@ -1,6 +1,6 @@
 .paddle {
 	position: absolute;
-	left: 100px;
+	left: 200px;
 	top: 0;
 	width: 10px;
 	height: 150px;
@@ -18,4 +18,10 @@
     border-radius: 50%;
     transition-property: all;
     transition-timing-function: linear;
+}
+
+.scoreCard {
+	position: absolute;
+	right: 20px;
+	top: 20px;
 }

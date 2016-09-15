@@ -6,7 +6,7 @@ import {Samples} from './services/samples.service';
 import {Audio} from './services/audio.service';
 import {Observable, BehaviorSubject} from 'rxjs/Rx';
 
-const PADDLE_MOVE_SPEED: number = 5;
+const PADDLE_MOVE_SPEED: number = 8;
 const BALL_SPEED: number = 5;
 const ANGLE = 45; //@45 degrees
 const BOTTOM_OFFSET = 100;
@@ -103,7 +103,7 @@ export class Pong implements OnDestroy, OnInit {
 			this._ballPos.x += posDiff.x;
 			this._ballPos.y += posDiff.y;
 
-			var hitThePaddle = this._ballPos.x <= 100 + this.ballSpeed
+			var hitThePaddle = this._ballPos.x <= 220 + this.ballSpeed
 				&& this._ballPos.y >= this._paddlePos
 				&& this._ballPos.y <= this._paddlePos + this.paddle.nativeElement.clientHeight
 				&& posDiff.x < 0;
@@ -150,7 +150,7 @@ export class Pong implements OnDestroy, OnInit {
 	}
 
 	movePaddle(evt: KeyboardEvent) {
-		
+
 		//add 100 offset for bottom
 		this._paddleHeight = this.paddle.nativeElement.offsetHeight - BOTTOM_OFFSET;
 
