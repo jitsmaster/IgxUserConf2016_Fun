@@ -6,6 +6,8 @@
 	height: 150px;
 	background-color: white;
 	border-radius: 5px;
+	box-sizing: border-box;
+	border: 2px solid gray;
 }
 
 .ball {
