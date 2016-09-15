@@ -10,6 +10,7 @@ const PADDLE_MOVE_SPEED: number = 5;
 const BALL_SPEED: number = 4;
 const ANGLE = 45; //@45 degrees
 const BOTTOM_OFFSET = 100;
+const SCORE_UNIT = 100;
 
 class Pos {
 	x: number = 0;
@@ -87,6 +88,7 @@ export class Pong implements OnDestroy, OnInit {
 	private _paddleSpeedMultiplier: number = 3;
 	private _ballSpeedMultiplier: number = 3;
 	private _tanMultiplier: number = 1;
+	private _scoreMultiplier: number = 3;
 
 	get paddleSpeed() {
 		return PADDLE_MOVE_SPEED * this._paddleSpeedMultiplier;
@@ -113,31 +115,37 @@ export class Pong implements OnDestroy, OnInit {
 				this._paddleSpeedMultiplier = 2;
 				this._ballSpeedMultiplier = 1;
 				this._tanMultiplier = 1;
+				this._scoreMultiplier = 0.2;
 				break;
 			case '2':
 				this._paddleSpeedMultiplier = 2;
 				this._ballSpeedMultiplier = 2;
 				this._tanMultiplier = 1;
+				this._scoreMultiplier = 0.5;
 				break;
 			case '4':
 				this._paddleSpeedMultiplier = 4;
 				this._ballSpeedMultiplier = 4;
 				this._tanMultiplier = 1;
+				this._scoreMultiplier = 2;
 				break;
 			case '5':
 				this._paddleSpeedMultiplier = 5;
 				this._ballSpeedMultiplier = 8;
 				this._tanMultiplier = 1;
+				this._scoreMultiplier = 5;
 				break;
 			case '6':
 				this._paddleSpeedMultiplier = 6;
 				this._ballSpeedMultiplier = 8;
 				this._tanMultiplier = Math.max(0.1, Math.random());
+				this._scoreMultiplier = 10;
 				break;
 			default:
 				this._paddleSpeedMultiplier = 3;
 				this._ballSpeedMultiplier = 3;
 				this._tanMultiplier = 1;
+				this._scoreMultiplier = 1;
 		}
 	}
 
@@ -188,7 +196,7 @@ export class Pong implements OnDestroy, OnInit {
 				this._xRevert = !this._xRevert;
 				if (hitThePaddle) {
 					//increaseScore 
-					this._score += 200;
+					this._score += this._scoreMultiplier * SCORE_UNIT;
 
 					this.samples.getSample("PINGPONG").then(sample => {
 						this.stopAudio = this.audio.play(sample, 0);
