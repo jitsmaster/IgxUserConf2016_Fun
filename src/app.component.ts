@@ -1,4 +1,4 @@
-import {Component, Inject, provide,
+import {Component, Inject, 
   trigger, state, transition, animate, style, group} from '@angular/core';
 import {LoadingIndicator} from './loading-indicator.component';
 import {Samples} from './services/samples.service';

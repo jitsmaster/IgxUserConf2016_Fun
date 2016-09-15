@@ -1,7 +1,7 @@
 import {Component, Inject, Input, OnInit,
   ElementRef, Renderer, ViewChild,
   OnDestroy, trigger, state, transition, animate, style, group} from '@angular/core';
-import {NgModel, ControlValueAccessor, REACTIVE_FORM_DIRECTIVES } from '@angular/forms';
+import {NgModel, ControlValueAccessor } from '@angular/forms';
 import {Samples} from './services/samples.service';
 import {Audio} from './services/audio.service';
 

@@ -14,8 +14,7 @@ import {Samples} from './services/samples.service';
            [chime]=chime>
     </chime>
   `,
-  styles: [require('./windchimes.component.css').toString()],
-  directives: [Chime, ForAnyOrder]
+  styles: [require('./windchimes.component.css').toString()]
 })
 export class Windchimes {
   chimes: Observable<{ x: number, y: number, note: string }[]>;

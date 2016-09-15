@@ -1,8 +1,8 @@
-import { NgModule, provide }       from '@angular/core';
+import { NgModule }       from '@angular/core';
 import { BrowserModule  } from '@angular/platform-browser';
 import { RouterModule, RouterOutletMap, RouterLink, RouterLinkActive } from '@angular/router';
 import { APP_BASE_HREF } from '@angular/common';
-import { disableDeprecatedForms, provideForms, FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 import {LoadingIndicator} from './loading-indicator.component';
@@ -22,28 +22,39 @@ import {routing, appRoutingProviders} from './app.routes';
 import {ForAnyOrder} from './directives/forAnyOrder.directive';
 
 @NgModule({
-    declarations: [AppComponent, Windchimes, WindchimesInteractive, 
+    declarations: [AppComponent, Windchimes, WindchimesInteractive,
 		BouncingBall, BouncingBallTemplated, Visualizer, LoadingIndicator,
 		ForAnyOrder, Chime, Pong],
-	// directives: [ROUTER_DIRECTIVES, LoadingIndicator],
+	exports: [AppComponent, Windchimes, WindchimesInteractive,
+		BouncingBall, BouncingBallTemplated, Visualizer, LoadingIndicator,
+		ForAnyOrder, Chime, Pong],
     imports: [BrowserModule, FormsModule, RouterModule, routing],
     bootstrap: [AppComponent],
-	// directives: [ROUTER_DIRECTIVES, LoadingIndicator],
 	providers: [
 		appRoutingProviders,
 		Random,
 		Spacial,
 		Samples,
 		Audio,
-		provide(APP_BASE_HREF, {useValue: '/'}),
-		provide(LocationStrategy, {
+		{
+			provide: APP_BASE_HREF,
+			useValue: '/'
+		},
+		{
+			provide: LocationStrategy,
 			useClass: HashLocationStrategy
-		}),
-		provide('audioContext', { useValue: new (window['AudioContext'] || window['webkitAudioContext']) }),
-		provide('size', { useValue: { width: 1280, height: 780 } }),
-		provide('notes', { useValue: ['C4', 'G4', 'C5', 'D5', 'E5'] }),
-		disableDeprecatedForms(),
-		provideForms()
+		},
+		{
+			provide: 'audioContext',
+			useValue: new (window['AudioContext'] || window['webkitAudioContext'])
+		},
+		{
+			provide: 'size', useValue: { width: 1280, height: 780 }
+		},
+		{
+			provide: 'notes',
+			useValue: ['C4', 'G4', 'C5', 'D5', 'E5']
+		}
 	]
 })
 export class AppModule { }

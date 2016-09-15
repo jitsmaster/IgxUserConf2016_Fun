@@ -1,4 +1,4 @@
-import {Component, Inject, HostListener, Query, QueryList, ElementRef,
+import {Component, HostListener, Query, QueryList, ElementRef,
 	ViewChild} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {Audio} from './services/audio.service';
@@ -8,7 +8,7 @@ import {Samples} from './services/samples.service';
 	selector: 'visualizer',
 	template: `
 	<select (change)="select($event)" #trackSelect
-	[value]="_name" >
+		[value]="_name" >
 		<option>[Select a song to play]</option>
 		<option *ngFor="let name of sampleNames">{{name}}</option>
 	</select>

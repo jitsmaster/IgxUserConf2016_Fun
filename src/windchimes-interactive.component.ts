@@ -15,8 +15,6 @@ import {Audio} from './services/audio.service';
     <chime *forAnyOrder="let chime of chimes | async"
            [chime]=chime>
     </chime>
-    <thank-you *ngIf="isDone()">
-    </thank-you>
   `,
   styles: [require('./windchimes.component.css').toString()]
 })
