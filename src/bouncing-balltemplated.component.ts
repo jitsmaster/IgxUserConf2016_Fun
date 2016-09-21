@@ -106,7 +106,7 @@ export class BouncingBallTemplated implements ControlValueAccessor {
   }
 
   _damp = 0.8;
-  _speedMultiplier = 1;
+  _speedMultiplier = 2;
   _gMultiplier = 1;
 
   get _speedX() {
