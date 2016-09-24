@@ -186,6 +186,7 @@ export class Pong implements OnDestroy, OnInit {
 			this._ballPos.y += posDiff.y;
 
 			var hitThePaddle = this._ballPos.x <= 220 + this.ballSpeed
+				&& this._ballPos.x > 200
 				&& this._ballPos.y >= this._paddlePos
 				&& this._ballPos.y <= this._paddlePos + this.paddle.nativeElement.clientHeight
 				&& posDiff.x < 0;
