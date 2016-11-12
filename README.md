@@ -1,1 +1,2 @@
-# IgxUserConf2016_Fun
+>npm install
+>npm start
